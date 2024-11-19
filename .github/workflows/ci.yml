@@ -1,17 +1,17 @@
-name: CI Pipeline
+name: CI Workflow
 
 on:
   push:
     branches:
-      - main
+      - main  # Ejecutar en cada commit a la rama main
   pull_request:
     branches:
-      - main
+      - main  # Ejecutar en cada pull request a la rama main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
+  build-and-test:
+    runs-on: ubuntu-latest  # Usa un contenedor de Ubuntu para ejecutar el pipeline
+
     steps:
     - name: Check out repository
       uses: actions/checkout@v3
@@ -26,3 +26,15 @@ jobs:
 
     - name: Run tests
       run: npm test
+
+    - name: Run static code analysis (SonarQube)
+      env:  # Configurar variables de entorno necesarias para SonarQube
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Usa un secreto para almacenar el token
+      run: |
+        npm install -g sonar-scanner
+        sonar-scanner \
+          -Dsonar.projectKey=your_project_key \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
