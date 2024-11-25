@@ -29,3 +29,5 @@ jobs:
       - name: Run tests  # Ejecutar pruebas automatizadas
         run: |
           pytest          # Cambia según el framework que uses
+      - name: Run SonarQube analysis
+        run: sonar-scanner
