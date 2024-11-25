@@ -1,40 +1,40 @@
-name: CI Workflow
+name: CI Pipeline
 
 on:
   push:
     branches:
-      - main  # Ejecutar en cada commit a la rama main
+      - main
   pull_request:
     branches:
-      - main  # Ejecutar en cada pull request a la rama main
+      - main
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest  # Usa un contenedor de Ubuntu para ejecutar el pipeline
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      # Configuración del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js (o tu lenguaje)
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      # Configurar entorno Python (puedes cambiar según tu lenguaje)
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
 
-    - name: Install dependencies
-      run: npm install
+      # Instalar dependencias (si es necesario)
+      - name: Install dependencies
+        run: |
+          pip install pytest
 
-    - name: Run tests
-      run: npm test
+      # Ejecutar pruebas
+      - name: Run tests
+        run: |
+          pytest
 
-    - name: Run static code analysis (SonarQube)
-      env:  # Configurar variables de entorno necesarias para SonarQube
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Usa un secreto para almacenar el token
-      run: |
-        npm install -g sonar-scanner
-        sonar-scanner \
-          -Dsonar.projectKey=your_project_key \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
+      # Ejecutar análisis estático
+      - name: Static Code Analysis
+        run: |
+          pip install pylint
+          pylint app.py
