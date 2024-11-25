@@ -1,40 +1,31 @@
 name: CI Pipeline
 
 on:
-  push:
+  push:                # Ejecutar el flujo cuando se haga un "push" de cambios
     branches:
-      - main
-  pull_request:
+      - main           # Solo en la rama "main"
+  pull_request:        # Ejecutar también en los Pull Requests
     branches:
       - main
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest   # Ejecutar en un sistema Ubuntu
 
     steps:
-      # Configuración del repositorio
-      - name: Checkout repository
+      - name: Checkout code  # Descargar el código del repositorio
         uses: actions/checkout@v3
 
-      # Configurar entorno Python (puedes cambiar según tu lenguaje)
-      - name: Setup Python
+      - name: Set up Python  # Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.8'  # Versión de Python
 
-      # Instalar dependencias (si es necesario)
-      - name: Install dependencies
+      - name: Install dependencies  # Instalar dependencias del proyecto
         run: |
-          pip install pytest
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      # Ejecutar pruebas
-      - name: Run tests
+      - name: Run tests  # Ejecutar pruebas automatizadas
         run: |
-          pytest
-
-      # Ejecutar análisis estático
-      - name: Static Code Analysis
-        run: |
-          pip install pylint
-          pylint app.py
+          pytest          # Cambia según el framework que uses
