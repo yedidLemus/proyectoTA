@@ -1,7 +1,7 @@
 # Documentación del Pipeline de CI/CD
 
 ## Introducción
-Este archivo describe la configuración del pipeline de integración continua para el proyecto X. El pipeline se implementa usando GitHub Actions y realiza las siguientes tareas:
+Este archivo describe la configuración del pipeline de integración continua para el proyecto de Temas Avanzados. El pipeline se implementa usando GitHub Actions y realiza las siguientes tareas:
 - Compilación del código.
 - Ejecución de pruebas automatizadas.
 - Análisis estático de calidad de código.
