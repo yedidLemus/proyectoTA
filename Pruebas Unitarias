@@ -1,9 +1,0 @@
-def suma(a, b):
-    return a + b
-#-- prueba unitaria #1 --
-import pytest
-from module import suma
-
-def test_suma():
-    assert suma(2, 3) == 5
-
