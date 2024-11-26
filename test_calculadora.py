@@ -1,33 +1,19 @@
+def calcularPrecioFinal(precio_base, descuento, impuesto):
+    if precio_base < 0 or descuento < 0 or impuesto < 0:
+        raise ValueError("Los valores no pueden ser negativos")
+    precio_descuento = precio_base - (precio_base * descuento / 100)
+    precio_final = precio_descuento + (precio_descuento * impuesto / 100)
+    return round(precio_final, 2)
+def test_precio_normal():
+    assert calcularPrecioFinal(100, 10, 15) == 103.5
+def test_sin_descuento():
+    assert calcularPrecioFinal(100, 0, 10) == 110.0
+def test_sin_impuesto():
+    assert calcularPrecioFinal(100, 20, 0) == 80.0
+def test_valores_limite():
+    assert calcularPrecioFinal(1, 50, 50) == 0.75  # Aplicando descuentos e impuestos extremos
 import pytest
-from calculadora import suma, resta, dividir, multiplicar, es_par
 
-# 1. Prueba para la función suma
-def test_suma():
-    assert suma(3, 2) == 5
-    assert suma(-1, 1) == 0
-    assert suma(0, 0) == 0
-
-# 2. Prueba para la función resta
-def test_resta():
-    assert resta(5, 3) == 2
-    assert resta(0, 5) == -5
-    assert resta(10, 10) == 0
-
-# 3. Prueba para la función dividir
-def test_dividir():
-    assert dividir(10, 2) == 5
-    assert dividir(9, 3) == 3
-    with pytest.raises(ValueError):  # Prueba para división entre cero
-        dividir(10, 0)
-
-# 4. Prueba para la función multiplicar
-def test_multiplicar():
-    assert multiplicar(4, 5) == 20
-    assert multiplicar(0, 10) == 0
-    assert multiplicar(-2, 3) == -6
-
-# 5. Prueba para la función es_par
-def test_es_par():
-    assert es_par(4) is True
-    assert es_par(5) is False
-    assert es_par(0) is True
+def test_valores_invalidos():
+    with pytest.raises(ValueError):
+        calcularPrecioFinal(-100, 10, 15)
